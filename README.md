@@ -1,0 +1,1 @@
+This is a group project to create a chore tracker where users can post small tasks/jobschores they need help with, and other users can accept the chores. 
