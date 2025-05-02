@@ -35,9 +35,8 @@ export const getUserById = async (req, res) => {
 
 export const loginUser = async (req, res) => {
     try {
-
         const user = await User.findOne({ email: req.body.email })
-        const decode = await bcrypt.compare(req.body.password, user.password)
+        const decode = await bcrypt.compare( req.body.password, user.password )
         if (!decode) {
             res.status(401).json(error)
         }
