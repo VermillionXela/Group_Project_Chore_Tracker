@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const USER_INSTANCE = axios.create({
-    baseURL:`http://localhost:8004/api/users`
+    baseURL:`http://localhost:8000/api/users`
 })
 
 

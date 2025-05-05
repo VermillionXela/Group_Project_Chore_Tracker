@@ -1,5 +1,7 @@
+import axios from 'axios'
+
 const JOB_INSTANCE = axios.create({
-    baseURL:`http://localhost:8004/api/jobs`
+    baseURL:`http://localhost:8000/api/jobs`
 })
 
 

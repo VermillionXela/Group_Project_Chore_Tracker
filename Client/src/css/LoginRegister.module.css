@@ -1,0 +1,66 @@
+.pageTitle {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.formContainer {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.regBox,
+.loginBox {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: #deebf5;
+    width: 250px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.formInput {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.formInput label {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.formInput input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #292929;
+    border-radius: 3px;
+}
+
+.submitBtn {
+    padding: 0.5rem;
+    background-color: white;
+    border: 2px solid black;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.submitBtn:hover {
+    background-color: #eaeaea;
+}
+
+.errorText {
+    color: red;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
