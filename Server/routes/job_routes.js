@@ -1,22 +1,26 @@
-import {Router} from 'express'
-import { assignJobToUser, createUserJob, deleteJobById, getAllJobs, getJobById, getUserJobs, updateJobById } from '../controllers/job_controller.js'
+import { Router } from 'express'
+import { assignJobToUser, createUserJob, deleteJobById, getAllJobs, getJobById, getUserJobs, updateJobById, completeJob } from '../controllers/job_controller.js'
 
 const jobRouter = Router()
 
 jobRouter.route('/')
-    .get( getAllJobs )
+    .get(getAllJobs)
 
 jobRouter.route('/job/:id')
-    .get( getJobById )
-    .delete( deleteJobById )
-    .put( updateJobById )
-    
+    .get(getJobById)
+    .delete(deleteJobById)
+    .put(updateJobById)
+
 jobRouter.route('/claim/:id')
-    .put( assignJobToUser )
+    .put(assignJobToUser)
+
+jobRouter.route('/complete/:id')
+    .put(completeJob)
+
 
 jobRouter.route('/:userId')
-    .post( createUserJob )
-    .get( getUserJobs )
+    .post(createUserJob)
+    .get(getUserJobs)
 
 export default jobRouter
 

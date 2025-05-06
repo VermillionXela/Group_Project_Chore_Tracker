@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { getAllJobs, getUserJobs } from '../Services/Job_Services'
+import { getAllJobs, getUserJobs, completeJobById } from '../Services/Job_Services'
 import { Header } from '../components/Header'
 import styles from '../css/Dashboard.module.css'
 import { useAuth } from '../Auth/useAuth'
+
 
 export const Dashboard = () => {
     const { user } = useAuth()
@@ -20,14 +21,23 @@ export const Dashboard = () => {
             .catch(console.error)
     }, [_id])
 
+    const handleCompleteJob = async (jobId) => {
+        try {
+            await completeJobById(jobId)
+            setMyJobs(myJobs.filter(job => job._id !== jobId))
+        } catch (error) {
+            console.error('Failed to complete job', error)
+        }
+    }
+
     return (
         <>
             <Header />
 
             <div className={styles.dashboard}>
-                <div className={styles.jobLists}>
+                <div className={styles.jobTables}>
                     <div>
-                        <h1>All Jobs</h1>
+                        <h2 className={styles.tableHeader}>Available Jobs</h2>
                         <table className={styles.table}>
                             <thead>
                                 <tr>
@@ -43,7 +53,6 @@ export const Dashboard = () => {
                                         <td>{job.location}</td>
                                         <td>
                                             <a href={`/jobs/${job._id}`}>View</a>
-
                                             {job.createdBy === user._id && (
                                                 <>
                                                     {' | '}
@@ -52,14 +61,12 @@ export const Dashboard = () => {
                                                     <a href={`/jobs/${job._id}/delete`}>Cancel</a>
                                                 </>
                                             )}
-
-                                            {job.assignedTo == null && job.createdBy !== user._id && (
+                                            {job.assignedTo === null && job.createdBy !== user._id && (
                                                 <>
                                                     {' | '}
                                                     <a href={`/jobs/${job._id}/assign`}>Add</a>
                                                 </>
                                             )}
-
                                         </td>
                                     </tr>
                                 ))}
@@ -68,8 +75,8 @@ export const Dashboard = () => {
                     </div>
 
                     <div>
-                    <h2 className={styles.tableHeader}>My Jobs</h2>
-                        <table>
+                        <h2 className={styles.tableHeader}>My Jobs</h2>
+                        <table className={styles.table}>
                             <thead>
                                 <tr>
                                     <th>Job</th>
@@ -83,7 +90,7 @@ export const Dashboard = () => {
                                         <td>
                                             <a href={`/jobs/${job._id}`}>View</a>
                                             {' | '}
-                                            <a href={`/jobs/${job._id}/complete`}>Done</a>
+                                            <button className={styles.completeBtn} onClick={() => handleCompleteJob(job._id)}>Done</button>
                                         </td>
                                     </tr>
                                 ))}
