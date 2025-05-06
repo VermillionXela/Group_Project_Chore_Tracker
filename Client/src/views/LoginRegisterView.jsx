@@ -39,10 +39,11 @@ export const LoginRegister = () => {
         }
         try {
             const res = await createUser(registerData)
-            localStorage.setItem('user', JSON.stringify(res))
+            localStorage.setItem('user', JSON.stringify(res.user))
+
             navigate('/dashboard')
-        } catch (err) {
-            setRegisterErrors(err.response.data.errors)
+        } catch (error) {
+            setRegisterErrors(error.response.data.errors)
         }
     }
 
@@ -50,7 +51,8 @@ export const LoginRegister = () => {
         e.preventDefault()
         try {
             const res = await userLogin(loginData)
-            localStorage.setItem('user', JSON.stringify(res))
+            localStorage.setItem('user', JSON.stringify(res.user))
+
             navigate('/dashboard')
         } catch (error) {
             setLoginErrors('Invalid credentials')

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getAllJobs, getUserJobs, completeJobById } from '../Services/Job_Services'
+import { getAllJobs, getUserJobs, completeJobById, assignJobToUser, deleteJobById } from '../Services/Job_Services'
 import { Header } from '../components/Header'
 import styles from '../css/Dashboard.module.css'
 import { useAuth } from '../Auth/useAuth'
@@ -10,7 +10,9 @@ export const Dashboard = () => {
     const [allJobs, setAllJobs] = useState([])
     const [myJobs, setMyJobs] = useState([])
 
-    const { _id } = JSON.parse(localStorage.getItem('user'))
+    const userObject = JSON.parse(localStorage.getItem('user') || '{}')
+    const _id = userObject?._id
+
 
     useEffect(() => {
         getAllJobs()
@@ -30,6 +32,35 @@ export const Dashboard = () => {
         }
     }
 
+    const handleAssign = async (jobId) => {
+        try {
+            await assignJobToUser(jobId, _id)
+            const updated = await getUserJobs(_id)
+            setMyJobs(updated)
+            setAllJobs(prev =>
+                prev.map(job => job._id === jobId ? { ...job, assignedTo: _id } : job)
+            )
+        } catch (error) {
+            console.error('Failed to assign job:', error)
+        }
+    }
+
+    const handleDelete = async (jobId) => {
+        try {
+            await deleteJobById(jobId)
+            const updatedJobs = await getAllJobs()
+            setAllJobs(updatedJobs)
+
+            const updatedMyJobs = await getUserJobs(user._id)
+            setMyJobs(updatedMyJobs)
+        } catch (error) {
+            console.error('Failed to delete job:', error)
+        }
+    }
+
+
+
+
     return (
         <>
             <Header />
@@ -48,6 +79,7 @@ export const Dashboard = () => {
                             </thead>
                             <tbody>
                                 {allJobs.map((job) => (
+                                    
                                     <tr key={job._id}>
                                         <td>{job.title}</td>
                                         <td>{job.location}</td>
@@ -58,13 +90,13 @@ export const Dashboard = () => {
                                                     {' | '}
                                                     <a href={`/jobs/${job._id}/edit`}>Edit</a>
                                                     {' | '}
-                                                    <a href={`/jobs/${job._id}/delete`}>Cancel</a>
+                                                    <button onClick={() => handleDelete(job._id)}>Delete</button>
                                                 </>
                                             )}
                                             {job.assignedTo === null && job.createdBy !== user._id && (
                                                 <>
                                                     {' | '}
-                                                    <a href={`/jobs/${job._id}/assign`}>Add</a>
+                                                    <button onClick={() => handleAssign(job._id)}>Add</button>
                                                 </>
                                             )}
                                         </td>

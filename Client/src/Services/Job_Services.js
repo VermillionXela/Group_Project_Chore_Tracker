@@ -4,15 +4,12 @@ const JOB_INSTANCE = axios.create({
     baseURL: `http://localhost:8000/api/jobs`
 })
 
-
-
-export const createJob = async (userId, jobData) => {
+export const createJob = async (jobData) => {
     try {
-        const RES = await JOB_INSTANCE.post(`/${userId}`, jobData)
+        const RES = await JOB_INSTANCE.post('/', jobData)
         return RES.data
-    } catch (error) { throw error }
+    } catch (error) {throw error}
 }
-
 
 export const getUserJobs = async (userId) => {
     try {
@@ -35,23 +32,23 @@ export const getJobById = async (id) => {
     } catch (error) { throw error }
 }
 
-export const deleteJobById = async () => {
+export const deleteJobById = async (id) => {
     try {
-        const RES = await JOB_INSTANCE.delete(`/${id}`)
+        const RES = await JOB_INSTANCE.delete(`/job/${id}`)
         return RES.data
     } catch (error) { throw error }
 }
 
 export const updateJobById = async (id, data) => {
     try {
-        const RES = await JOB_INSTANCE.put(`/${id}`, data)
+        const RES = await JOB_INSTANCE.put(`/job/${id}`, data)
         return RES.data
     } catch (error) { throw error }
 }
 
 export const assignJobToUser = async (id, userId) => {
     try {
-        const RES = await JOB_INSTANCE.put(`/claim/${id}`, { userId })
+        const RES = await JOB_INSTANCE.put(`/assign/${id}`, { userId })
         return RES.data
     } catch (error) { throw error }
 }
@@ -60,5 +57,5 @@ export const completeJobById = async (id) => {
     try {
         const RES = await JOB_INSTANCE.put(`/complete/${id}`)
         return RES.data
-    } catch (error) {throw error}
+    } catch (error) { throw error }
 }

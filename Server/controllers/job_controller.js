@@ -2,8 +2,7 @@ import User from "../models/user.model.js";
 import Job from "../models/job_model.js";
 
 export const createUserJob = async (req, res) => {
-    const { userId } = req.params
-    const { title, description, location } = req.body
+    const { title, description, location, userId } = req.body
     try {
         const JOB = await Job.create({ title, description, location, createdBy: userId })
         res.status(201).json(JOB)
@@ -15,15 +14,22 @@ export const createUserJob = async (req, res) => {
 export const assignJobToUser = async (req, res) => {
     const { id } = req.params
     const { userId } = req.body
+
     try {
         const JOB = await Job.findById(id)
         JOB.assignedTo = userId
         await JOB.save()
+
+        const USER = await User.findById(userId)
+        USER.jobs.push(id)
+        await USER.save()
+
         res.status(200).json(JOB)
     } catch (error) {
         res.status(400).json(error)
     }
 }
+
 
 export const getAllJobs = async (req, res) => {
     try {
@@ -42,7 +48,7 @@ export const getUserJobs = async (req, res) => {
     } catch (error) {
         res.status(400).json(error)
     }
-};
+}
 
 export const getJobById = async (req, res) => {
     try {
@@ -52,7 +58,7 @@ export const getJobById = async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: 'Job not found', error })
     }
-};
+}
 
 export const deleteJobById = async (req, res) => {
     const { id } = req.params

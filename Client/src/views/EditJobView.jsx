@@ -1,23 +1,26 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { createJob } from '../Services/Job_Services'
-import { useAuth } from '../Auth/useAuth'
+import { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { getJobById, updateJobById } from '../Services/Job_Services'
 import styles from '../css/AddJobView.module.css'
-import { Header } from '../components/Header'
+import {Header} from '../components/Header'
 
-export const AddJobView = () => {
-    const { user } = useAuth()
+export const EditJobView = () => {
+    const { id } = useParams()
     const navigate = useNavigate()
 
     const [jobData, setJobData] = useState({
         title: '',
         description: '',
-        location: '',
-        userId: user._id
+        location: ''
     })
 
     const [errors, setErrors] = useState({})
-    
+
+    useEffect(() => {
+        getJobById(id)
+            .then((res) => setJobData(res))
+            .catch((err) => console.error('Failed to load job data:', err))
+    }, [id])
 
     const updateJob = (e) => {
         const { name, value } = e.target
@@ -27,7 +30,7 @@ export const AddJobView = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await createJob(jobData)
+            await updateJobById(id, jobData)
             navigate('/dashboard')
         } catch (error) {
             setErrors(error.response.data.errors)
@@ -37,8 +40,7 @@ export const AddJobView = () => {
     return (
         <>
             <Header />
-
-            <h1 className={styles.pageTitle}>Add a Job</h1>
+            <h1 className={styles.pageTitle}>Edit Job</h1>
             <form className={styles.jobForm} onSubmit={handleSubmit}>
                 <div className={styles.formInput}>
                     <label>Title:</label>
@@ -72,8 +74,10 @@ export const AddJobView = () => {
                     {errors.location && <p className={styles.errorText}>{errors.location.message}</p>}
                 </div>
 
-                <button className={styles.submitBtn} type="submit">Submit</button>
+                <button className={styles.submitBtn} type="submit">Update Job</button>
             </form>
         </>
     )
 }
+
+
