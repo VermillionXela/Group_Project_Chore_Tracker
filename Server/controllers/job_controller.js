@@ -94,3 +94,14 @@ export const completeJob = async (req, res) => {
         res.status(400).json(error)
     }
 }
+
+export const getJobsCreatedByUser = async (req, res) => {
+    const { userId } = req.params
+    try {
+        const JOBS = await Job.find({ createdBy: userId }).populate('assignedTo')
+        res.status(200).json(JOBS)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+};
+

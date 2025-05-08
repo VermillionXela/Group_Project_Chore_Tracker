@@ -3,6 +3,7 @@ import { getAllJobs, getUserJobs, completeJobById, assignJobToUser, deleteJobByI
 import { Header } from '../components/Header'
 import styles from '../css/Dashboard.module.css'
 import { useAuth } from '../Auth/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 
 export const Dashboard = () => {
@@ -12,7 +13,7 @@ export const Dashboard = () => {
 
     const userObject = JSON.parse(localStorage.getItem('user') || '{}')
     const _id = userObject?._id
-
+    const navigate = useNavigate()
 
     useEffect(() => {
         getAllJobs()
@@ -64,11 +65,12 @@ export const Dashboard = () => {
     return (
         <>
             <Header />
-
+            
             <div className={styles.dashboard}>
+            <h1 className={styles.pageTitle}>Chore Tracker Dashboard</h1>
                 <div className={styles.jobTables}>
                     <div>
-                        <h2 className={styles.tableHeader}>Available Jobs</h2>
+                        <h2 className={styles.tableHeader}>All Jobs</h2>
                         <table className={styles.table}>
                             <thead>
                                 <tr>
@@ -79,16 +81,15 @@ export const Dashboard = () => {
                             </thead>
                             <tbody>
                                 {allJobs.map((job) => (
-                                    
                                     <tr key={job._id}>
                                         <td>{job.title}</td>
                                         <td>{job.location}</td>
                                         <td>
-                                            <a href={`/jobs/${job._id}`}>View</a>
+                                            <button onClick={() => navigate(`/jobs/${job._id}`)} className={styles.button}>View</button>
                                             {job.createdBy === user._id && (
                                                 <>
                                                     {' | '}
-                                                    <a href={`/jobs/${job._id}/edit`}>Edit</a>
+                                                    <button onClick={() => navigate(`/jobs/${job._id}/edit`)} className={styles.button}>Edit</button>
                                                     {' | '}
                                                     <button onClick={() => handleDelete(job._id)}>Delete</button>
                                                 </>
@@ -120,7 +121,7 @@ export const Dashboard = () => {
                                     <tr key={job._id}>
                                         <td>{job.title}</td>
                                         <td>
-                                            <a href={`/jobs/${job._id}`}>View</a>
+                                            <button onClick={() => navigate(`/jobs/${job._id}`)} className={styles.button}>View</button>
                                             {' | '}
                                             <button className={styles.completeBtn} onClick={() => handleCompleteJob(job._id)}>Done</button>
                                         </td>

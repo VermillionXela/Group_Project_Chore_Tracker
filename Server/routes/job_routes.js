@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { assignJobToUser, createUserJob, deleteJobById, getAllJobs, getJobById, getUserJobs, updateJobById, completeJob } from '../controllers/job_controller.js'
+import { assignJobToUser, createUserJob, deleteJobById, getAllJobs, getJobById, getUserJobs, updateJobById, completeJob,getJobsCreatedByUser } from '../controllers/job_controller.js'
 
 const jobRouter = Router()
 
@@ -9,6 +9,9 @@ jobRouter.route('/')
 
 jobRouter.route('/:userId')
     .get(getUserJobs)
+
+jobRouter.route('/posted/:userId')
+    .get(getJobsCreatedByUser)
 
 jobRouter.route('/job/:id')
     .get(getJobById)

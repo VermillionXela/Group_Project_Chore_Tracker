@@ -20,17 +20,27 @@ export const Header = () => {
     return (
         isLoggedIn && (
             <div className={styles.header}>
-                <p className={styles.welcome}>Welcome {user.firstName}!</p>
+                <p className={styles.welcome}>Welcome, {user.firstName}!</p>
 
                 {isDashboard ? (
                     <div className={styles.links}>
-                        <button onClick={() => navigate("/addjob")} className={styles.button}>Add A Job</button>
+                        <button onClick={() => navigate("/addjob")} className={styles.button}>
+                            Add A Job
+                        </button>
+                        <button onClick={() => navigate("/my-posted-jobs")} className={styles.button}>
+                            My Posted Jobs
+                        </button>
+
                         <button onClick={logout} className={styles.button}>Logout</button>
                     </div>
                 ) : (
                     <div className={styles.links}>
-                        <button onClick={() => navigate(-1)} className={styles.button}>Back</button>
-                        <button onClick={logout} className={styles.button}>Logout</button>
+                        <button onClick={() => navigate(-1)} className={styles.button}>
+                            Back
+                        </button>
+                        <button onClick={logout} className={styles.button}>
+                            Logout
+                        </button>
                     </div>
                 )}
             </div>

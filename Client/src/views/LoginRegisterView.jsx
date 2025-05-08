@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createUser, userLogin } from '../Services/User_Services'
 import styles from '../css/LoginRegister.module.css'
+import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 
 export const LoginRegister = () => {
     const [registerData, setRegisterData] = useState({
@@ -20,6 +22,7 @@ export const LoginRegister = () => {
     const [registerErrors, setRegisterErrors] = useState({})
     const [loginErrors, setLoginErrors] = useState('')
     const navigate = useNavigate()
+    const location = useLocation()
 
     const updateRegister = (e) => {
         const { name, value } = e.target
@@ -41,11 +44,18 @@ export const LoginRegister = () => {
             const res = await createUser(registerData)
             localStorage.setItem('user', JSON.stringify(res.user))
 
-            navigate('/dashboard')
+            navigate("/", { state: { registered: true } })
         } catch (error) {
             setRegisterErrors(error.response.data.errors)
         }
     }
+
+    useEffect(() => {
+        if (location.state?.registered) {
+            alert("Register Succesful! Please log in.")
+        }
+    }, [location.state])
+
 
     const handleLogin = async (e) => {
         e.preventDefault()

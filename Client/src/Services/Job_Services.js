@@ -8,7 +8,7 @@ export const createJob = async (jobData) => {
     try {
         const RES = await JOB_INSTANCE.post('/', jobData)
         return RES.data
-    } catch (error) {throw error}
+    } catch (error) { throw error }
 }
 
 export const getUserJobs = async (userId) => {
@@ -58,4 +58,11 @@ export const completeJobById = async (id) => {
         const RES = await JOB_INSTANCE.put(`/complete/${id}`)
         return RES.data
     } catch (error) { throw error }
+}
+
+export const getUserPostedJobs = async (userId) => {
+    try {
+        const res = await JOB_INSTANCE.get(`/posted/${userId}`)
+        return res.data
+    } catch (error) {throw error}
 }
