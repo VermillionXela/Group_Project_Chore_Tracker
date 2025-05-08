@@ -1,0 +1,53 @@
+.pageTitle {
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.jobForm {
+    width: 400px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+}
+
+.formInput {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: .5rem;
+}
+
+.formInput label {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.formInput input,
+.formInput textarea {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #292929;
+    border-radius: 3px;
+}
+
+.submitBtn {
+    padding: 0.5rem;
+    background-color: white;
+    border: 1px solid black;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.submitBtn:hover {
+    background-color: #eaeaea;
+}
+
+.errorText {
+    color: red;
+    font-size: 1rem;
+    margin-top: 0.25rem;
+}
